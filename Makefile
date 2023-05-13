@@ -1,5 +1,4 @@
-.PHONY: python node
-
+all: python node
 python: build-python-base build-python-dev build-python-example
 node: build-node-base build-node-example
 
