@@ -19,7 +19,9 @@ FROM ubuntu:22.04
 COPY --from=build /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
-RUN useradd --create-home --shell /bin/bash noddy
+RUN useradd --create-home --shell /bin/bash noddy && \
+    mkdir /app && \
+    chown -R noddy:noddy /app
 
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
 ENV PATH /usr/local/lib/nodejs/node-v20.1.0-linux-x64/bin:$PATH
