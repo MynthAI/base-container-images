@@ -61,6 +61,10 @@ jobs:
         load: true
         tags: python-example
 
+    - name: Build examples/python/Dockerfile
+      run: |
+        docker build -t python-example -f examples/python/Dockerfile examples/python
+
     - name: Run Docker container
       run: |
         docker run -d --name python-example -p 8000:8000 python-example
