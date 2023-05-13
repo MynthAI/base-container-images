@@ -11,13 +11,11 @@ RUN chmod +x /tini
 
 # hadolint ignore=DL3008
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends \
-        ca-certificates wget xz-utils && \
+    apt-get install -y --no-install-recommends xz-utils && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-RUN wget --progress=dot:giga \
-        "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-${NODE_DISTRO}.tar.gz" && \
-    mkdir -p /usr/local/lib/nodejs && \
+ADD https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-${NODE_DISTRO}.tar.gz .
+RUN mkdir -p /usr/local/lib/nodejs && \
     tar -xzf "node-v${NODE_VERSION}-${NODE_DISTRO}.tar.gz" \
         -C /usr/local/lib/nodejs && \
     rm "node-v${NODE_VERSION}-${NODE_DISTRO}.tar.gz"
