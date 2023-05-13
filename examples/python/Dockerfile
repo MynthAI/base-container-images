@@ -1,11 +1,8 @@
 FROM quay.io/mynth/python-dev:local as builder
 
 # Build the project
-WORKDIR /app
-RUN mkdir hello_python && \
-    touch hello_python/__init__.py
-COPY poetry.lock pyproject.toml ./
-RUN poetry install --without=dev --no-interaction --no-ansi
+COPY poetry.lock pyproject.toml /app/
+RUN install-poetry-app hello_python
 
 FROM quay.io/mynth/python-base:local
 

@@ -10,6 +10,9 @@ RUN apt-get update -qq && \
     /opt/poetry/bin/pip install poetry && \
     ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry
 
+COPY install-poetry-app.sh /usr/local/bin/install-poetry-app
+RUN chmod +x /usr/local/bin/install-poetry-app
+
 USER monty
 WORKDIR /app
 RUN poetry config virtualenvs.in-project true
