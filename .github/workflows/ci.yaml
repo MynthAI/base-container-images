@@ -27,35 +27,13 @@ jobs:
       with:
         dockerfile: examples/python/Dockerfile
 
-    - name: Install wait-for-it
+    - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y wait-for-it
+        sudo apt-get install -y build-essential wait-for-it
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Build python/python-base.Dockerfile
-      uses: docker/build-push-action@v4
-      with:
-        file: python/python-base.Dockerfile
-        context: python
-        push: false
-        load: true
-        tags: quay.io/mynth/python:base
-
-    - name: Build python/python-dev.Dockerfile
-      uses: docker/build-push-action@v4
-      with:
-        file: python/python-dev.Dockerfile
-        context: python
-        push: false
-        load: true
-        tags: quay.io/mynth/python:dev
-
-    - name: Build examples/python/Dockerfile
-      run: |
-        docker build -t python-example -f examples/python/Dockerfile examples/python
+    - name: Build containers
+      run: make
 
     - name: Run Docker container
       run: |

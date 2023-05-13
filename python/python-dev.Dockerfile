@@ -31,7 +31,9 @@ RUN apt-get update -qq && \
     ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry
 
 COPY install-poetry-app.sh /usr/local/bin/install-poetry-app
-RUN chmod +x /usr/local/bin/install-poetry-app
+RUN chmod +x /usr/local/bin/install-poetry-app && \
+    mkdir /app && \
+    chown -R monty:monty /app
 
 USER monty
 WORKDIR /app
