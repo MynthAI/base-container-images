@@ -1,6 +1,26 @@
-FROM quay.io/mynth/python-base:local
+FROM ubuntu:22.04 as tini
 
-USER root
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+
+FROM ubuntu:22.04
+COPY --from=tini /tini /sbin/tini
+ENTRYPOINT ["/sbin/tini", "--"]
+
+RUN useradd --create-home --shell /bin/bash monty
+
+# hadolint ignore=DL3008
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends python3.11 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONFAULTHANDLER 1
+ENV PATH /app/.venv/bin:$PATH
 
 # hadolint ignore=DL3008,DL3009
 RUN apt-get update -qq && \
