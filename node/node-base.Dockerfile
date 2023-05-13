@@ -1,29 +1,34 @@
-FROM ubuntu:22.04 as tini
+FROM ubuntu:22.04 as build
 
 ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
+ARG NODE_VERSION=20.1.0
+ARG NODE_DISTRO=linux-x64
+
+# hadolint ignore=DL3008
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates wget xz-utils && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+RUN wget --progress=dot:giga \
+        https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-${NODE_DISTRO}.tar.gz && \
+    mkdir -p /usr/local/lib/nodejs && \
+    tar -xzf node-v${NODE_VERSION}-${NODE_DISTRO}.tar.gz \
+        -C /usr/local/lib/nodejs && \
+    rm node-v${NODE_VERSION}-${NODE_DISTRO}.tar.gz
+
 FROM ubuntu:22.04
-COPY --from=tini /tini /sbin/tini
+COPY --from=build /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
 RUN useradd --create-home --shell /bin/bash noddy
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-# hadolint ignore=DL3008
-RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends \
-        ca-certificates curl gnupg2 && \
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource-archive-keyring.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/nodesource-archive-keyring.gpg] https://deb.nodesource.com/node_18.x jammy main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt-get update -qq && \
-    apt-get install -y --no-install-recommends nodejs && \
-    apt-get remove -y curl gnupg2 && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    mkdir /app && \
-    chown -R noddy:noddy /app
+ARG NODE_VERSION=20.1.0
+ARG NODE_DISTRO=linux-x64
+COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
+ENV PATH /usr/local/lib/nodejs/node-v${NODE_VERSION}-${NODE_DISTRO}/bin:$PATH
 
 USER noddy
