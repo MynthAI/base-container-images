@@ -1,12 +1,19 @@
-.PHONY: all build-base build-dev build-example
+.PHONY: python node
 
-all: build-base build-dev build-example
+python: build-python-base build-python-dev build-python-example
+node: build-node-base build-node-example
 
-build-base:
+build-python-base:
 	docker build -t quay.io/mynth/python:base -f python/python-base.Dockerfile python
 
-build-dev:
+build-python-dev:
 	docker build -t quay.io/mynth/python:dev -f python/python-dev.Dockerfile python
 
-build-example:
+build-python-example:
 	docker build -t python-example examples/python
+
+build-node-base:
+	docker build -t quay.io/mynth/node:base -f node/node-base.Dockerfile node
+
+build-node-example:
+	docker build -t node-example examples/node
