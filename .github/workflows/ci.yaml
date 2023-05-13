@@ -54,14 +54,6 @@ jobs:
         tags: quay.io/mynth/python-dev:local
 
     - name: Build examples/python/Dockerfile
-      uses: docker/build-push-action@v4
-      with:
-        context: examples/python
-        push: false
-        load: true
-        tags: python-example
-
-    - name: Build examples/python/Dockerfile
       run: |
         docker build -t python-example -f examples/python/Dockerfile examples/python
 
