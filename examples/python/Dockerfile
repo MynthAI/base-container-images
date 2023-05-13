@@ -1,10 +1,10 @@
-FROM quay.io/mynth/python-dev:local as builder
+FROM quay.io/mynth/python:dev as builder
 
 # Build the project
 COPY poetry.lock pyproject.toml /app/
 RUN install-poetry-app hello_python
 
-FROM quay.io/mynth/python-base:local
+FROM quay.io/mynth/python:base
 
 # Install the built project
 COPY --from=builder /app /app

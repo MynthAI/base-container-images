@@ -42,7 +42,7 @@ jobs:
         context: python
         push: false
         load: true
-        tags: quay.io/mynth/python-base:local
+        tags: quay.io/mynth/python:base
 
     - name: Build python/python-dev.Dockerfile
       uses: docker/build-push-action@v4
@@ -51,7 +51,7 @@ jobs:
         context: python
         push: false
         load: true
-        tags: quay.io/mynth/python-dev:local
+        tags: quay.io/mynth/python:dev
 
     - name: Build examples/python/Dockerfile
       run: |
