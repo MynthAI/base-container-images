@@ -38,6 +38,7 @@ jobs:
     - name: Build python/python-base.Dockerfile
       uses: docker/build-push-action@v4
       with:
+        file: python/python-base.Dockerfile
         context: python
         push: false
         load: true
@@ -46,6 +47,7 @@ jobs:
     - name: Build python/python-dev.Dockerfile
       uses: docker/build-push-action@v4
       with:
+        file: python/python-dev.Dockerfile
         context: python
         push: false
         load: true
