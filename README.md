@@ -1,6 +1,8 @@
 # Mynth Base Container Images
 
-This repository contains the base container images used by Mynth.
+This repository holds the base container images used by Mynth. These
+images are publicly hosted on [Quay](https://quay.io/organization/mynth)
+and can be accessed using the `quay.io/mynth/<name>` registry.
 
 ## Python
 
