@@ -9,5 +9,4 @@ COPY --chown=noddy:noddy . ./
 RUN npx next build
 
 EXPOSE 3000
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["npx", "next", "start"]
+CMD ["node", "node_modules/.bin/next", "start"]
