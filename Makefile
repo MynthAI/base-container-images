@@ -1,6 +1,6 @@
 all: python node
 python: build-python-base build-python-dev build-python-example
-node: build-node-base build-node-dev build-node-example
+node: build-node-base build-node-example
 
 build-python-base:
 	docker build -t quay.io/mynth/python:base -f python/python-base.Dockerfile python
@@ -13,9 +13,6 @@ build-python-example:
 
 build-node-base:
 	docker build -t quay.io/mynth/node:base -f node/node-base.Dockerfile node
-
-build-node-dev:
-	docker build -t quay.io/mynth/node:dev -f node/node-dev.Dockerfile node
 
 build-node-example:
 	docker build -t node-example examples/node
