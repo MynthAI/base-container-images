@@ -1,4 +1,4 @@
-FROM quay.io/mynth/node:base
+FROM quay.io/mynth/node:base as builder
 
 # Build the project
 WORKDIR /app
