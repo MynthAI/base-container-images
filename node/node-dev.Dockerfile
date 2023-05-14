@@ -29,3 +29,4 @@ ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v20.1.0-linux-x64/bin
 RUN corepack enable && corepack prepare yarn@stable --activate
 
 USER noddy
+ENV NODE_ENV production

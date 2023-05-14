@@ -27,3 +27,4 @@ COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
 ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v20.1.0-linux-x64/bin:$PATH
 
 USER noddy
+ENV NODE_ENV production
