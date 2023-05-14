@@ -6,7 +6,7 @@ COPY --chown=noddy:noddy package*.json ./
 RUN npm ci
 
 COPY --chown=noddy:noddy . ./
-RUN npx next build && npm prune --production
+RUN npx next build && npm ci --omit dev
 
 FROM quay.io/mynth/node:base
 WORKDIR /app
