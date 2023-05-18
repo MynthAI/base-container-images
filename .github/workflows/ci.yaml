@@ -37,6 +37,16 @@ jobs:
       with:
         dockerfile: node/node-dev.Dockerfile
 
+    - name: Check node-18/node-base.Dockerfile
+      uses: hadolint/hadolint-action@v3.1.0
+      with:
+        dockerfile: node-18/node-base.Dockerfile
+
+    - name: Check node-18/node-dev.Dockerfile
+      uses: hadolint/hadolint-action@v3.1.0
+      with:
+        dockerfile: node-18/node-dev.Dockerfile
+
     - name: Check examples/node/Dockerfile
       uses: hadolint/hadolint-action@v3.1.0
       with:
