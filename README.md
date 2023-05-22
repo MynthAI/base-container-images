@@ -4,6 +4,97 @@ This repository holds the base container images used by Mynth. These
 images are publicly hosted on [Quay](https://quay.io/organization/mynth)
 and can be accessed using the `quay.io/mynth/<name>` registry.
 
+## Branches
+
+This repository is set up to automatically build containers when merging
+to any of the following branches:
+
+  - [node](https://github.com/MynthAI/base-container-images/tree/node)
+  - [node-18](https://github.com/MynthAI/base-container-images/tree/node-18)
+  - [python](https://github.com/MynthAI/base-container-images/tree/python)
+
+## Node
+
+The `node` image is a lightweight and optimized container for running
+node.js applications that use `npm` and `yarn`. It comes with node 20
+installed.
+
+Four tags exist for the `node` container:
+
+  - quay.io/mynth/node:base
+  - quay.io/mynth/node:dev
+  - quay.io/mynth/node:18-base
+  - quay.io/mynth/node:18-dev
+
+`node:base` comes with node 20 installed. `node:dev` comes with node 20
+installed and `yarn`. `node:18-base` comes with node 18 installed.
+`node:18-dev` comes with node 18 installed and `yarn`.
+
+### Usage
+
+To use the `node` image, create a `Dockerfile` in your project directory
+that takes advantage of Docker’s multi-stage feature. The first stage
+builds your application, and the second stage copies the built files for
+deployment. This results in a lightweight container image.
+
+The first part of the container uses the `dev` tag to build the
+application:
+
+``` dockerfile
+FROM quay.io/mynth/node:dev as builder
+
+WORKDIR /app
+COPY --chown=noddy:noddy package*.json ./
+RUN npm ci
+```
+
+First, copy your `package.json` and `package-lock.json` (or `yarn.lock`)
+to the `/app` directory, then run `npm ci` or `yarn install`. Next,
+build the final production version of the application:
+
+``` dockerfile
+COPY --chown=noddy:noddy . ./
+RUN npx next build && npm ci --omit dev
+```
+
+Run your application’s build process and uninstall developer tools with
+`npm ci --omit dev` or `yarn install --production`.
+
+Now that your application is built, copy the built files to the image
+with the `base` tag:
+
+``` dockerfile
+FROM quay.io/mynth/node:base
+WORKDIR /app
+COPY --from=builder --chown=noddy:noddy /app ./
+```
+
+Copy the files from the `/app` directory in your builder container, as
+well as all the source code files from your local repository.
+
+Your application is now ready to run, so include a command and expose
+any necessary ports:
+
+``` dockerfile
+EXPOSE 3000
+CMD ["next", "start"]
+```
+
+Build the Dockerfile as usual:
+
+``` bash
+docker build -t node-example .
+```
+
+Now you can run your application:
+
+``` bash
+docker run -p 3000:3000 node-example
+```
+
+If you follow the example provided in [examples/node](examples/node),
+you can access the running web application at `http://localhost:3000/`.
+
 ## Python
 
 The `python` image is a lightweight and optimized container for running
