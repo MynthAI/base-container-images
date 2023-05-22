@@ -3,29 +3,16 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - node
   pull_request:
+    branches:
+      - node
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
-    - name: Check python/python-base.Dockerfile
-      uses: hadolint/hadolint-action@v3.1.0
-      with:
-        dockerfile: python/python-base.Dockerfile
-
-    - name: Check python/python-dev.Dockerfile
-      uses: hadolint/hadolint-action@v3.1.0
-      with:
-        dockerfile: python/python-dev.Dockerfile
-
-    - name: Check examples/python/Dockerfile
-      uses: hadolint/hadolint-action@v3.1.0
-      with:
-        dockerfile: examples/python/Dockerfile
 
     - name: Check node/node-base.Dockerfile
       uses: hadolint/hadolint-action@v3.1.0
@@ -36,16 +23,6 @@ jobs:
       uses: hadolint/hadolint-action@v3.1.0
       with:
         dockerfile: node/node-dev.Dockerfile
-
-    - name: Check node-18/node-base.Dockerfile
-      uses: hadolint/hadolint-action@v3.1.0
-      with:
-        dockerfile: node-18/node-base.Dockerfile
-
-    - name: Check node-18/node-dev.Dockerfile
-      uses: hadolint/hadolint-action@v3.1.0
-      with:
-        dockerfile: node-18/node-dev.Dockerfile
 
     - name: Check examples/node/Dockerfile
       uses: hadolint/hadolint-action@v3.1.0
@@ -59,20 +36,6 @@ jobs:
 
     - name: Build containers
       run: make
-
-    - name: Run python-example container
-      run: |
-        docker run -d --name python-example -p 8000:8000 python-example
-
-    - name: Wait for python-example container
-      run: wait-for-it localhost:8000
-
-    - name: Check python-example endpoint is working
-      run: |
-        for i in {1..10}; do curl http://localhost:8000/ && break || sleep 1; done
-
-    - name: Stop python-example container
-      run: docker stop python-example
 
     - name: Run node-example container
       run: |
