@@ -14,7 +14,8 @@ RUN useradd --create-home --shell /bin/bash monty
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends python3.11 && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    ln -s /usr/bin/python3 /usr/bin/python
 
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
