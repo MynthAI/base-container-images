@@ -28,5 +28,12 @@ RUN useradd --create-home --shell /bin/bash noddy && \
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
 ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.17.0-linux-x64/bin:$PATH
 
+RUN mkdir ~/.vault-cli && \
+    python3 -m venv ~/.vault-cli/venv  && \
+    ~/.vault-cli/venv/bin/pip install vault-cli && \    
+    sudo ln -s ~/.vault-cli/venv/bin/vault-cli /usr/local/bin
+
 USER noddy
 ENV NODE_ENV production
+
+
