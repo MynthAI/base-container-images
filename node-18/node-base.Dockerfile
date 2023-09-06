@@ -15,7 +15,8 @@ RUN mkdir -p /usr/local/lib/nodejs && \
         -C /usr/local/lib/nodejs && \
     rm node-v18.17.0-linux-x64.tar.gz
 ENV PATH /usr/local/lib/nodejs/node-v18.17.0-linux-x64/bin:$PATH
-RUN npm install -g npm@9.8.1
+
+# RUN npm install -g npm@9.8.1
 
 FROM ubuntu:22.04
 COPY --from=build /tini /sbin/tini
@@ -23,10 +24,14 @@ ENTRYPOINT ["/sbin/tini", "--"]
 
 RUN useradd --create-home --shell /bin/bash noddy && \
     mkdir /app && \
-    chown -R noddy:noddy /app
+    chown -R noddy:noddy /app   
 
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
+
 ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.17.0-linux-x64/bin:$PATH
+
+# Install Python
+RUN apt-get update && apt install -y python3.10-venv
 
 RUN mkdir ~/.vault-cli && \
     python3 -m venv ~/.vault-cli/venv  && \
