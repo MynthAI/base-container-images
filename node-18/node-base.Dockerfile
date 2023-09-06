@@ -34,11 +34,14 @@ ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.17.0-linux-x64/bi
 RUN apt-get update && apt install -y python3.10-venv
 
 RUN mkdir ~/.vault-cli && \
-    python3 -m venv ~/.vault-cli/venv  && \
-    ~/.vault-cli/venv/bin/pip install vault-cli && \    
-    sudo ln -s ~/.vault-cli/venv/bin/vault-cli /usr/local/bin
+    python3 -m venv ~/.vault-cli/venv && \
+    ~/.vault-cli/venv/bin/pip install vault-cli
+
+RUN ln -s ~/.vault-cli/venv/bin/vault-cli /usr/local/bin
 
 USER noddy
 ENV NODE_ENV production
+
+
 
 
