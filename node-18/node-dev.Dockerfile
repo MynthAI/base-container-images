@@ -5,9 +5,9 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
 # hadolint ignore=DL3008
-RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends xz-utils && \
-    apt-get clean && \
+RUN apt get update -qq && \
+    apt get install -y --no-install-recommends xz-utils && \
+    apt get clean && \
     rm -rf /var/lib/apt/lists/*
 ADD https://nodejs.org/dist/v18.17.0/node-v18.17.0-linux-x64.tar.gz .
 RUN mkdir -p /usr/local/lib/nodejs && \
