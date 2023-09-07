@@ -35,9 +35,9 @@ FROM ubuntu:22.04
 COPY --from=build /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
-RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends libc6 && \
-    apt-get clean && \
+RUN apt get update -qq && \
+    apt get install -y --no-install-recommends libc6 && \
+    apt get clean && \
     rm -rf /var/lib/apt/lists/*
 
 RUN useradd --create-home --shell /bin/bash noddy && \
