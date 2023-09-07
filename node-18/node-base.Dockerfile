@@ -23,8 +23,6 @@ RUN npm install -g npm@9.8.1
 
 FROM python:3 as python_image
 
-RUN pip install pyinstaller
-
 RUN mkdir -p /vault/.vault-cli && \
     python3 -m venv vault/.vault-cli/venv && \
     vault/.vault-cli/venv/bin/pip install vault-cli
