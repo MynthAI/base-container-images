@@ -9,13 +9,19 @@ RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends xz-utils && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-ADD https://nodejs.org/dist/v18.17.0/node-v18.17.0-linux-x64.tar.gz .
+
+ADD https://nodejs.org/dist/latest-v18.x/node-v18.17.1-linux-x64.tar.gz .
+
 RUN mkdir -p /usr/local/lib/nodejs && \
-    tar -xzf node-v18.17.0-linux-x64.tar.gz \
-        -C /usr/local/lib/nodejs && \
-    rm node-v18.17.0-linux-x64.tar.gz
-ENV PATH /usr/local/lib/nodejs/node-v18.17.0-linux-x64/bin:$PATH
-RUN npm install -g npm@9.8.1
+    tar -xzf  node-v18.17.1-linux-x64.tar.gz && \
+    mv node-v18.17.1-linux-x64 /usr/local/lib/nodejs && \
+    rm node-v18.17.1-linux-x64.tar.gz
+
+ENV PATH $PATH:/usr/local/lib/nodejs/node-v18.17.1-linux-x64/bin
+
+RUN npm install -g npm@10.0.0
+
+
 
 FROM ubuntu:22.04
 COPY --from=build /tini /sbin/tini
@@ -29,7 +35,7 @@ RUN useradd --create-home --shell /bin/bash noddy && \
     chown -R noddy:noddy /app
 
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
-ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.17.0-linux-x64/bin:$PATH
+ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.17.1-linux-x64/bin:$PATH
 
 USER noddy
 ENV NODE_ENV production
