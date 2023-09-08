@@ -8,6 +8,10 @@ FROM ubuntu:22.04
 COPY --from=tini /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
+# hadolint ignore=DL3022
+COPY --from=quay.io/mynth/docker-vault-cli:python \
+    /dist /
+
 RUN useradd --create-home --shell /bin/bash monty
 
 # hadolint ignore=DL3008
