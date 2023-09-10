@@ -1,0 +1,86 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  publish-node:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Login to Quay.io
+        uses: docker/login-action@v2
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_ID }}
+          password: ${{ secrets.QUAY_PW }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build node container
+        run: |
+          make build-node-base
+          make build-node-dev
+
+      - name: Publish container
+        run: |
+          TAG=$(git rev-parse --short HEAD)
+          docker push quay.io/mynth/node:base
+          docker push quay.io/mynth/node:dev
+        if: github.ref == 'refs/heads/main'
+
+  publish-node-18:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Login to Quay.io
+        uses: docker/login-action@v2
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_ID }}
+          password: ${{ secrets.QUAY_PW }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build node container
+        run: |
+          make build-node-18-base
+          make build-node-18-dev
+
+      - name: Publish container
+        run: |
+          TAG=$(git rev-parse --short HEAD)
+          docker push quay.io/mynth/node:18-base
+          docker push quay.io/mynth/node:18-dev
+        if: github.ref == 'refs/heads/main'
+
+  publish-python:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Login to Quay.io
+        uses: docker/login-action@v2
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_ID }}
+          password: ${{ secrets.QUAY_PW }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build python container
+        run: |
+          make build-python-base
+          make build-python-dev
+
+      - name: Publish container
+        run: |
+          TAG=$(git rev-parse --short HEAD)
+          docker push quay.io/mynth/python:base
+          docker push quay.io/mynth/python:dev
+        if: github.ref == 'refs/heads/main'
