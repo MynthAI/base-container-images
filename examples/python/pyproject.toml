@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "hello-python"
+version = "0.1.0"
+description = "An example Python application running in a container"
+authors = ["Mynth"]
+packages = [{include = "hello_python"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.95.1"
+uvicorn = "^0.22.0"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.3.0"
+flake8 = "^6.0.0"
+isort = "^5.12.0"
+black = "^23.3.0"
+pytest = "^7.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
