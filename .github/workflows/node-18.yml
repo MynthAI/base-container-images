@@ -3,10 +3,8 @@ name: CI
 on:
   push:
     branches:
-      - node-18
+      - main
   pull_request:
-    branches:
-      - node-18
 
 jobs:
   test:

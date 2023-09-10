@@ -3,10 +3,8 @@ name: CI
 on:
   push:
     branches:
-      - node
+      - main
   pull_request:
-    branches:
-      - node
 
 jobs:
   test:
