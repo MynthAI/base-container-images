@@ -33,8 +33,8 @@ jobs:
           docker tag quay.io/mynth/node:dev quay.io/mynth/node:dev-$TAG
           docker push quay.io/mynth/node:base
           docker push quay.io/mynth/node:dev
-          docker push quay.io/mynth/python:base-$TAG
-          docker push quay.io/mynth/python:dev-$TAG
+          docker push quay.io/mynth/node:base-$TAG
+          docker push quay.io/mynth/node:dev-$TAG
         if: github.ref == 'refs/heads/main'
 
   publish-node-18:
@@ -63,8 +63,8 @@ jobs:
           docker tag quay.io/mynth/node:18-dev quay.io/mynth/node:18-dev-$TAG
           docker push quay.io/mynth/node:18-base
           docker push quay.io/mynth/node:18-dev
-          docker push quay.io/mynth/python:18-base-$TAG
-          docker push quay.io/mynth/python:18-dev-$TAG
+          docker push quay.io/mynth/node:18-base-$TAG
+          docker push quay.io/mynth/node:18-dev-$TAG
         if: github.ref == 'refs/heads/main'
 
   publish-python:
