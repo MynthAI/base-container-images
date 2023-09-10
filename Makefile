@@ -1,6 +1,6 @@
-all: node
-node: build-node-base build-node-dev build-node-example
+all: node-18 python node
 node-18: build-node-18-base build-node-18-dev build-node-18-example
+node: build-node-base build-node-dev build-node-example
 python: build-python-base build-python-dev build-python-example
 
 build-node-base:
