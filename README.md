@@ -4,15 +4,6 @@ This repository holds the base container images used by Mynth. These
 images are publicly hosted on [Quay](https://quay.io/organization/mynth)
 and can be accessed using the `quay.io/mynth/<name>` registry.
 
-## Branches
-
-This repository is set up to automatically build containers when merging
-to any of the following branches:
-
-  - [node](https://github.com/MynthAI/base-container-images/tree/node)
-  - [node-18](https://github.com/MynthAI/base-container-images/tree/node-18)
-  - [python](https://github.com/MynthAI/base-container-images/tree/python)
-
 ## Node
 
 The `node` image is a lightweight and optimized container for running
