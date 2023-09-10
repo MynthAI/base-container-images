@@ -29,6 +29,7 @@ RUN apt-get update -qq && \
         python3.11-venv && \
     python3.11 -m venv /opt/poetry && \
     /opt/poetry/bin/pip install poetry && \
+    /opt/poetry/bin/pip install 'setuptools==65.5.1' && \
     ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry
 
 COPY install-poetry-app.sh /usr/local/bin/install-poetry-app
