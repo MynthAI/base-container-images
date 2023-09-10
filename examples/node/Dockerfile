@@ -1,4 +1,4 @@
-FROM quay.io/mynth/node:18-dev as builder
+FROM quay.io/mynth/node:dev as builder
 
 # Build the project
 WORKDIR /app
@@ -8,7 +8,7 @@ RUN npm ci
 COPY --chown=noddy:noddy . ./
 RUN npx next build && npm ci --omit dev
 
-FROM quay.io/mynth/node:18-base
+FROM quay.io/mynth/node:base
 WORKDIR /app
 COPY --from=builder --chown=noddy:noddy /app ./
 EXPOSE 3000
