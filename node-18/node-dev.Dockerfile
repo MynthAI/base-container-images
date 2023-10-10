@@ -19,7 +19,7 @@ RUN mkdir -p /usr/local/lib/nodejs && \
 
 ENV PATH $PATH:/usr/local/lib/nodejs/node-v18.17.1-linux-x64/bin
 
-RUN npm install -g npm@10.0.0
+RUN npm install -g npm@10.2.0
 
 FROM ubuntu:22.04
 COPY --from=build /tini /sbin/tini
