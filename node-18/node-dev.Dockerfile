@@ -19,7 +19,8 @@ RUN mkdir -p /usr/local/lib/nodejs && \
 
 ENV PATH $PATH:/usr/local/lib/nodejs/node-v18.18.0-linux-x64/bin
 
-RUN npm install -g npm@10.2.0
+RUN npm install -g npm@10.2.0 && \
+    npm config set update-notifier false
 
 FROM ubuntu:22.04
 COPY --from=build /tini /sbin/tini
