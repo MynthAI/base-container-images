@@ -34,7 +34,7 @@ RUN useradd --create-home --shell /bin/bash noddy && \
     chown -R noddy:noddy /app
 
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
-ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.17.1-linux-x64/bin:$PATH
+ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.18.0-linux-x64/bin:$PATH
 
 USER noddy
 ENV NODE_ENV production
