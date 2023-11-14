@@ -19,8 +19,7 @@ RUN mkdir -p /usr/local/lib/nodejs && \
 
 ENV PATH $PATH:/usr/local/lib/nodejs/node-v18.18.0-linux-x64/bin
 
-RUN npm install -g npm@10.2.0 && \
-    npm config set update-notifier false
+RUN npm install -g npm@10.2.0
 
 FROM ubuntu:22.04
 COPY --from=build /tini /sbin/tini
@@ -38,3 +37,4 @@ ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.18.0-linux-x64/bi
 
 USER noddy
 ENV NODE_ENV production
+RUN npm config set update-notifier false
