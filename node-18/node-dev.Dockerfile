@@ -19,7 +19,7 @@ RUN mkdir -p /usr/local/lib/nodejs && \
 
 ENV PATH $PATH:/usr/local/lib/nodejs/node-v18.18.2-linux-x64/bin
 
-RUN npm install -g npm@10.2.3 && \
+RUN npm install -g npm@10.2.4 && \
     npm config set update-notifier false
 
 FROM ubuntu:22.04
