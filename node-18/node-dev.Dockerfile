@@ -18,7 +18,7 @@ RUN mkdir -p /usr/local/lib/nodejs && \
     rm node-v18.18.2-linux-x64.tar.xz
 
 ENV PATH $PATH:/usr/local/lib/nodejs/node-v18.18.2-linux-x64/bin
-RUN npm install -g npm@10.6.0 && \
+RUN npm install -g npm@10.7.0 && \
     npm config set update-notifier false
 
 FROM ubuntu:22.04
@@ -35,7 +35,20 @@ RUN useradd --create-home --shell /bin/bash noddy && \
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
 ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.18.2-linux-x64/bin:$PATH
 
-RUN corepack enable && corepack prepare yarn@stable --activate
+# hadolint ignore=DL3008
+RUN corepack enable && \
+    corepack prepare yarn@stable --activate && \
+    apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        python3.11 \
+        python3.11-dev \
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    ln -s /usr/bin/python3.11 /usr/bin/python && \
+    npm install -g node-gyp@v10.1.0
 
 USER noddy
 ENV NODE_ENV production
+ENV PYTHON=/usr/bin/python
