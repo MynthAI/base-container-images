@@ -35,7 +35,19 @@ RUN useradd --create-home --shell /bin/bash noddy && \
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
 ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.18.2-linux-x64/bin:$PATH
 
-RUN corepack enable && corepack prepare yarn@stable --activate
+# hadolint ignore=DL3008
+RUN corepack enable && \
+    corepack prepare yarn@stable --activate && \
+    apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        python3.11 \
+        python3.11-dev \
+        xz-utils \
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    npm install -g node-gyp@v10.1.0
 
 USER noddy
 ENV NODE_ENV production
