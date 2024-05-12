@@ -46,7 +46,9 @@ RUN corepack enable && \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
+    ln -s /usr/bin/python3.11 /usr/bin/python && \
     npm install -g node-gyp@v10.1.0
 
 USER noddy
 ENV NODE_ENV production
+ENV PYTHON=/usr/bin/python
