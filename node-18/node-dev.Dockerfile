@@ -43,7 +43,6 @@ RUN corepack enable && \
         build-essential \
         python3.11 \
         python3.11-dev \
-        xz-utils \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
