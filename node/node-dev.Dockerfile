@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as build
+FROM ubuntu:24.04 as build
 
 ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
@@ -19,7 +19,7 @@ ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v20.12.2-linux-x64/bi
 RUN npm install -g npm@10.6.0 && \
     npm config set update-notifier false
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 COPY --from=build /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
