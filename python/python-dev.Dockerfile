@@ -1,10 +1,10 @@
-FROM ubuntu:22.04 as tini
+FROM ubuntu:24.04 as tini
 
 ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 COPY --from=tini /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
@@ -16,7 +16,11 @@ RUN useradd --create-home --shell /bin/bash monty
 
 # hadolint ignore=DL3008
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends python3.11 && \
+    apt-get install -y --no-install-recommends \
+    software-properties-common=0.99.49.1 && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update -qq && \
+    apt-get install -y --no-install-recommends python3.11=3.11.11-1+noble1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/python3 /usr/bin/python
