@@ -1,10 +1,10 @@
-FROM ubuntu:22.04 as tini
+FROM ubuntu:24.04 as tini
 
 ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 COPY --from=tini /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
@@ -16,7 +16,7 @@ RUN useradd --create-home --shell /bin/bash monty
 
 # hadolint ignore=DL3008
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends python3.11 && \
+    apt-get install -y --no-install-recommends python3.12 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/python3 /usr/bin/python
@@ -30,8 +30,8 @@ ENV PATH /app/.venv/bin:$PATH
 # hadolint ignore=DL3008,DL3009
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
-        python3.11-venv && \
-    python3.11 -m venv /opt/poetry && \
+        python3.12-venv && \
+    python3.12 -m venv /opt/poetry && \
     /opt/poetry/bin/pip install poetry && \
     /opt/poetry/bin/pip install 'setuptools==65.5.1' && \
     ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry

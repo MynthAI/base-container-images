@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as build
+FROM ubuntu:24.04 as build
 
 ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
@@ -21,7 +21,7 @@ ENV PATH $PATH:/usr/local/lib/nodejs/node-v18.18.2-linux-x64/bin
 RUN npm install -g npm@10.7.0 && \
     npm config set update-notifier false
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 COPY --from=build /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
@@ -40,13 +40,13 @@ RUN corepack enable && \
     corepack prepare yarn@stable --activate && \
     apt-get update -qq && \
     apt-get install -y --no-install-recommends \
+        python3.12 \
+        python3.12-dev \
         build-essential \
-        python3.11 \
-        python3.11-dev \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    ln -s /usr/bin/python3.11 /usr/bin/python && \
+    ln -s /usr/bin/python3.12 /usr/bin/python && \
     npm install -g node-gyp@v10.1.0
 
 USER noddy
