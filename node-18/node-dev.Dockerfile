@@ -40,17 +40,13 @@ RUN corepack enable && \
     corepack prepare yarn@stable --activate && \
     apt-get update -qq && \
     apt-get install -y --no-install-recommends \
-    software-properties-common=0.99.49.1 && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt-get update -qq && \
-    apt-get install -y --no-install-recommends \
+        python3.12 \
+        python3.12-dev \
         build-essential \
-        python3.11=3.11.11-1+noble1 \
-        python3.11-dev \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    ln -s /usr/bin/python3.11 /usr/bin/python && \
+    ln -s /usr/bin/python3.12 /usr/bin/python && \
     npm install -g node-gyp@v10.1.0
 
 USER noddy

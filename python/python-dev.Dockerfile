@@ -16,11 +16,7 @@ RUN useradd --create-home --shell /bin/bash monty
 
 # hadolint ignore=DL3008
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends \
-    software-properties-common=0.99.49.1 && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt-get update -qq && \
-    apt-get install -y --no-install-recommends python3.11=3.11.11-1+noble1 && \
+    apt-get install -y --no-install-recommends python3.12 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/python3 /usr/bin/python
@@ -34,8 +30,8 @@ ENV PATH /app/.venv/bin:$PATH
 # hadolint ignore=DL3008,DL3009
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
-        python3.11-venv && \
-    python3.11 -m venv /opt/poetry && \
+        python3.12-venv && \
+    python3.12 -m venv /opt/poetry && \
     /opt/poetry/bin/pip install poetry && \
     /opt/poetry/bin/pip install 'setuptools==65.5.1' && \
     ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry
