@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as build
+FROM ubuntu:24.04 as build
 
 ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
@@ -21,7 +21,7 @@ ENV PATH $PATH:/usr/local/lib/nodejs/node-v18.18.2-linux-x64/bin
 RUN npm install -g npm@10.9.0 && \
     npm config set update-notifier false
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 COPY --from=build /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
@@ -40,8 +40,12 @@ RUN corepack enable && \
     corepack prepare yarn@stable --activate && \
     apt-get update -qq && \
     apt-get install -y --no-install-recommends \
+    software-properties-common=0.99.49.1 && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
         build-essential \
-        python3.11 \
+        python3.11=3.11.11-1+noble1 \
         python3.11-dev \
         && \
     apt-get clean && \
