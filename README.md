@@ -10,12 +10,14 @@ The `node` image is a lightweight and optimized container for running
 node.js applications that use `npm` and `yarn`. It comes with node 20
 installed.
 
-Four tags exist for the `node` container:
+Six tags exist for the `node` container:
 
-  - quay.io/mynth/node:base
-  - quay.io/mynth/node:dev
-  - quay.io/mynth/node:18-base
-  - quay.io/mynth/node:18-dev
+- quay.io/mynth/node:base
+- quay.io/mynth/node:dev
+- quay.io/mynth/node:18-base
+- quay.io/mynth/node:18-dev
+- quay.io/mynth/node:22-base
+- quay.io/mynth/node:22-dev
 
 `node:base` comes with node 20 installed. `node:dev` comes with node 20
 installed and `yarn`. `node:18-base` comes with node 18 installed.
