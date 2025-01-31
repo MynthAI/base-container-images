@@ -37,7 +37,7 @@ ENV PATH=/app/node_modules/.bin:/usr/local/lib/nodejs/node-v22.13.1-linux-x64/bi
 
 # hadolint ignore=DL3008
 RUN corepack enable && \
-    corepack prepare yarn@stable --activate && \
+    corepack prepare pnpm@latest --activate && \
     apt-get update -qq && \
     apt-get install -y --no-install-recommends \
         python3.12 \
@@ -50,4 +50,4 @@ RUN corepack enable && \
     npm install -g node-gyp@v11.0.0
 
 USER noddy
-ENV NODE_ENV=production
+ENV NODE_ENV=development
