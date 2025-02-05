@@ -18,7 +18,7 @@ RUN mkdir -p /usr/local/lib/nodejs && \
     rm node-v22.13.1-linux-x64.tar.xz
 
 ENV PATH=$PATH:/usr/local/lib/nodejs/node-v22.13.1-linux-x64/bin
-RUN npm install -g npm@11.0.0 && \
+RUN npm install -g npm@11.1.0 corepack@0.31.0 && \
     npm config set update-notifier false
 
 FROM ubuntu:24.04
