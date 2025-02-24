@@ -162,10 +162,9 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 10
     steps:
-      - name: Install Docker
+      - name: Start Docker service
         run: |
-          brew install --cask docker
-          open -a Docker
+          sudo launchctl start com.docker.docker
           while ! docker info > /dev/null 2>&1; do
             echo "Waiting for Docker to start..."
             sleep 5
