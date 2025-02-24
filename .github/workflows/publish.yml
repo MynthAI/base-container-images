@@ -157,3 +157,28 @@ jobs:
           docker push quay.io/mynth/python:base-$TAG
           docker push quay.io/mynth/python:dev-$TAG
         if: github.ref == 'refs/heads/main'
+  
+  publish-python-arm:
+    runs-on: ubuntu-22.04-arm
+    timeout-minutes: 10
+    steps:
+      - name: Login to Quay.io
+        uses: docker/login-action@v2
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_ID }}
+          password: ${{ secrets.QUAY_PW }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build python container
+        run: docker build --platform linux/arm64 -t quay.io/mynth/python:dev-arm -f python/python-dev.Dockerfile python
+
+      - name: Publish container
+        run: |
+          TAG=$(git rev-parse --short HEAD)
+          docker tag quay.io/mynth/python:dev-arm quay.io/mynth/python:dev-arm-$TAG
+          docker push quay.io/mynth/python:dev-arm
+          docker push quay.io/mynth/python:dev-arm-$TAG
+        if: github.ref == 'refs/heads/main'
