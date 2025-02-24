@@ -159,17 +159,11 @@ jobs:
         if: github.ref == 'refs/heads/main'
 
   publish-python-mac:
-    runs-on: macos-latest
+    runs-on: macos-13
     timeout-minutes: 10
     steps:
-      - name: Start Docker service
-        run: |
-          sudo launchctl start com.docker.docker
-          while ! docker info > /dev/null 2>&1; do
-            echo "Waiting for Docker to start..."
-            sleep 5
-          done
-          echo "Docker is ready."
+      - name: Set up Docker
+        uses: douglascamata/setup-docker-macos-action@v1-alpha.16
 
       - name: Login to Quay.io
         uses: docker/login-action@v2
