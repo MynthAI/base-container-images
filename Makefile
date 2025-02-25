@@ -1,4 +1,4 @@
-all: node-18 python node
+all: node-18 node-22 python
 node-18: build-node-18-base build-node-18-dev build-node-18-example
 node-22: build-node-22-base build-node-22-dev build-node-22-example
 python: build-python-base build-python-dev build-python-example
