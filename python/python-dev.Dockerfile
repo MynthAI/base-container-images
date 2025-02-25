@@ -9,8 +9,7 @@ COPY --from=tini /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
 # hadolint ignore=DL3022
-COPY --from=quay.io/mynth/docker-vault-cli:python \
-    /dist /
+COPY --from=quay.io/mynth/docker-vault-cli /usr/local/bin/vault-cli /usr/local/bin/vault-cli
 
 RUN useradd --create-home --shell /bin/bash monty
 
@@ -33,7 +32,6 @@ RUN apt-get update -qq && \
         python3.12-venv && \
     python3.12 -m venv /opt/poetry && \
     /opt/poetry/bin/pip install poetry && \
-    /opt/poetry/bin/pip install 'setuptools==65.5.1' && \
     ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry
 
 COPY install-poetry-app.sh /usr/local/bin/install-poetry-app

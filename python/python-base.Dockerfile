@@ -9,8 +9,7 @@ COPY --from=tini /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
 # hadolint ignore=DL3022
-COPY --from=quay.io/mynth/docker-vault-cli:python \
-    /dist /
+COPY --from=quay.io/mynth/docker-vault-cli /usr/local/bin/vault-cli /usr/local/bin/vault-cli
 
 RUN useradd --create-home --shell /bin/bash monty
 
