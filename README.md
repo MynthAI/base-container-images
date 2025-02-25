@@ -7,12 +7,10 @@ and can be accessed using the `quay.io/mynth/<name>` registry.
 ## Node
 
 The `node` images are lightweight and optimized containers for running
-node.js applications. Six tags exist for the `node` container:
+node.js applications. Four tags exist for the `node` container:
 
 - quay.io/mynth/node:18-base
 - quay.io/mynth/node:18-dev
-- quay.io/mynth/node:20-base
-- quay.io/mynth/node:20-dev
 - quay.io/mynth/node:22-base
 - quay.io/mynth/node:22-dev
 
