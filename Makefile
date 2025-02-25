@@ -2,17 +2,7 @@ all: node-18 python node
 node-18: build-node-18-base build-node-18-dev build-node-18-example
 node-20: build-node-20-base build-node-20-dev build-node-20-example
 node-22: build-node-22-base build-node-22-dev build-node-22-example
-node: build-node-base build-node-dev build-node-example
 python: build-python-base build-python-dev build-python-example
-
-build-node-base:
-	docker build -t quay.io/mynth/node:base -f node/node-base.Dockerfile node
-
-build-node-dev:
-	docker build -t quay.io/mynth/node:dev -f node/node-dev.Dockerfile node
-
-build-node-example:
-	docker build -t node-example examples/node
 
 build-node-18-base:
 	docker build -t quay.io/mynth/node:18-base -f node-18/node-base.Dockerfile node-18
