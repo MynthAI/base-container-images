@@ -1,6 +1,6 @@
-FROM ubuntu:24.04 as build
+FROM ubuntu:24.04 AS build
 
-ENV TINI_VERSION v0.19.0
+ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
@@ -17,7 +17,7 @@ RUN mkdir -p /usr/local/lib/nodejs && \
     mv node-v18.18.2-linux-x64 /usr/local/lib/nodejs && \
     rm node-v18.18.2-linux-x64.tar.xz
 
-ENV PATH $PATH:/usr/local/lib/nodejs/node-v18.18.2-linux-x64/bin
+ENV PATH=$PATH:/usr/local/lib/nodejs/node-v18.18.2-linux-x64/bin
 RUN npm install -g npm@10.9.0 && \
     npm config set update-notifier false
 
@@ -33,7 +33,7 @@ RUN useradd --create-home --shell /bin/bash noddy && \
     chown -R noddy:noddy /app
 
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
-ENV PATH /app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.18.2-linux-x64/bin:$PATH
+ENV PATH=/app/node_modules/.bin:/usr/local/lib/nodejs/node-v18.18.2-linux-x64/bin:$PATH
 
 # hadolint ignore=DL3008
 RUN corepack enable && \
@@ -50,5 +50,5 @@ RUN corepack enable && \
     npm install -g node-gyp@v10.1.0
 
 USER noddy
-ENV NODE_ENV production
+ENV NODE_ENV=production
 ENV PYTHON=/usr/bin/python
