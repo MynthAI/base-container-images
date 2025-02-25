@@ -1,4 +1,4 @@
-FROM quay.io/mynth/python:dev as builder
+FROM quay.io/mynth/python:dev AS builder
 
 # Build the project
 COPY poetry.lock pyproject.toml /app/

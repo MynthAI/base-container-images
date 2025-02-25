@@ -1,4 +1,4 @@
-FROM quay.io/mynth/node:18-dev as builder
+FROM quay.io/mynth/node:18-dev AS builder
 
 # Build the project
 WORKDIR /app
