@@ -6,26 +6,19 @@ and can be accessed using the `quay.io/mynth/<name>` registry.
 
 ## Node
 
-The `node` image is a lightweight and optimized container for running
-node.js applications that use `npm` and `yarn`. It comes with node 20
-installed.
+The `node` images are lightweight and optimized containers for running
+node.js applications. Six tags exist for the `node` container:
 
-Six tags exist for the `node` container:
-
-- quay.io/mynth/node:base
-- quay.io/mynth/node:dev
 - quay.io/mynth/node:18-base
 - quay.io/mynth/node:18-dev
+- quay.io/mynth/node:20-base
+- quay.io/mynth/node:20-dev
 - quay.io/mynth/node:22-base
 - quay.io/mynth/node:22-dev
 
-`node:base` comes with node 20 installed. `node:dev` comes with node 20
-installed and `yarn`. `node:18-base` comes with node 18 installed.
-`node:18-dev` comes with node 18 installed and `yarn`.
-
 ### Usage
 
-To use the `node` image, create a `Dockerfile` in your project directory
+To use a `node` image, create a `Dockerfile` in your project directory
 that takes advantage of Docker’s multi-stage feature. The first stage
 builds your application, and the second stage copies the built files for
 deployment. This results in a lightweight container image.
@@ -34,16 +27,16 @@ The first part of the container uses the `dev` tag to build the
 application:
 
 ``` dockerfile
-FROM quay.io/mynth/node:dev as builder
+FROM quay.io/mynth/node:22-dev as builder
 
 WORKDIR /app
 COPY --chown=noddy:noddy package*.json ./
 RUN npm ci
 ```
 
-First, copy your `package.json` and `package-lock.json` (or `yarn.lock`)
-to the `/app` directory, then run `npm ci` or `yarn install`. Next,
-build the final production version of the application:
+First, copy your `package.json` and `package-lock.json` to the `/app`
+directory, then run `npm ci`. Next, build the final production version
+of the application:
 
 ``` dockerfile
 COPY --chown=noddy:noddy . ./
@@ -57,7 +50,7 @@ Now that your application is built, copy the built files to the image
 with the `base` tag:
 
 ``` dockerfile
-FROM quay.io/mynth/node:base
+FROM quay.io/mynth/node:22-base
 WORKDIR /app
 COPY --from=builder --chown=noddy:noddy /app ./
 ```
