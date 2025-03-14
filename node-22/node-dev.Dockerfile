@@ -17,8 +17,9 @@ RUN mkdir -p /usr/local/lib/nodejs && \
     mv node-v22.14.0-linux-x64 /usr/local/lib/nodejs && \
     rm node-v22.14.0-linux-x64.tar.xz
 
-ENV PATH=$PATH:/usr/local/lib/nodejs/node-v22.14.0-linux-x64/bin
-RUN npm install -g corepack@0.31.0 && \
+ENV PNPM_HOME=/home/noddy/.local/share/pnpm
+ENV PATH=$PNPM_HOME:$PATH:/usr/local/lib/nodejs/node-v22.14.0-linux-x64/bin
+RUN npm install -g corepack@0.32.0 && \
     npm config set update-notifier false
 
 FROM ubuntu:24.04
@@ -47,7 +48,7 @@ RUN corepack enable && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/python3.12 /usr/bin/python && \
-    npm install -g node-gyp@v11.0.0
+    npm install -g node-gyp@v11.1.0
 
 USER noddy
 ENV NODE_ENV=development
