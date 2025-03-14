@@ -17,8 +17,7 @@ RUN mkdir -p /usr/local/lib/nodejs && \
     mv node-v22.14.0-linux-x64 /usr/local/lib/nodejs && \
     rm node-v22.14.0-linux-x64.tar.xz
 
-ENV PNPM_HOME=/home/noddy/.local/share/pnpm
-ENV PATH=$PNPM_HOME:$PATH:/usr/local/lib/nodejs/node-v22.14.0-linux-x64/bin
+ENV PATH=$PATH:/usr/local/lib/nodejs/node-v22.14.0-linux-x64/bin
 RUN npm install -g corepack@0.32.0 && \
     npm config set update-notifier false
 
@@ -34,7 +33,8 @@ RUN useradd --create-home --shell /bin/bash noddy && \
     chown -R noddy:noddy /app
 
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
-ENV PATH=/app/node_modules/.bin:/usr/local/lib/nodejs/node-v22.14.0-linux-x64/bin:$PATH
+ENV PNPM_HOME=/home/noddy/.local/share/pnpm
+ENV PATH=$PNPM_HOME:/app/node_modules/.bin:/usr/local/lib/nodejs/node-v22.14.0-linux-x64/bin:$PATH
 
 # hadolint ignore=DL3008
 RUN corepack enable && \
