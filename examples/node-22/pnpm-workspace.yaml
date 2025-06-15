@@ -1,0 +1,3 @@
+onlyBuiltDependencies:
+  - blake2
+  - unrs-resolver
