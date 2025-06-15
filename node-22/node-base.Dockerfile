@@ -10,14 +10,14 @@ RUN apt-get update -qq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ADD https://nodejs.org/dist/v22.15.0/node-v22.15.0-linux-x64.tar.xz .
+ADD https://nodejs.org/dist/v22.16.0/node-v22.16.0-linux-x64.tar.xz .
 
 RUN mkdir -p /usr/local/lib/nodejs && \
-    tar -xJf node-v22.15.0-linux-x64.tar.xz && \
-    mv node-v22.15.0-linux-x64 /usr/local/lib/nodejs && \
-    rm node-v22.15.0-linux-x64.tar.xz
+    tar -xJf node-v22.16.0-linux-x64.tar.xz && \
+    mv node-v22.16.0-linux-x64 /usr/local/lib/nodejs && \
+    rm node-v22.16.0-linux-x64.tar.xz
 
-ENV PATH=$PATH:/usr/local/lib/nodejs/node-v22.15.0-linux-x64/bin
+ENV PATH=$PATH:/usr/local/lib/nodejs/node-v22.16.0-linux-x64/bin
 
 FROM ubuntu:24.04
 COPY --from=build /tini /sbin/tini
@@ -31,7 +31,7 @@ RUN useradd --create-home --shell /bin/bash noddy && \
     chown -R noddy:noddy /app
 
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
-ENV PATH=/app/node_modules/.bin:/usr/local/lib/nodejs/node-v22.15.0-linux-x64/bin:$PATH
+ENV PATH=/app/node_modules/.bin:/usr/local/lib/nodejs/node-v22.16.0-linux-x64/bin:$PATH
 
 USER noddy
 ENV NODE_ENV=production
