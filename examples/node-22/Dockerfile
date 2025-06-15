@@ -12,4 +12,4 @@ FROM quay.io/mynth/node:22-base
 WORKDIR /app
 COPY --from=builder --chown=noddy:noddy /app ./
 EXPOSE 3000
-CMD ["next", "start"]
+CMD ["node", "--import", "tsx", "entrypoint.ts"]

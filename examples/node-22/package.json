@@ -4,27 +4,13 @@
   "private": true,
   "packageManager": "pnpm@10.12.1",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "pnpm tsc"
   },
   "dependencies": {
-    "@types/node": "^24.0.1",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "autoprefixer": "^10.4.21",
-    "blake2": "^5.0.0",
-    "eslint": "^9.29.0",
-    "eslint-config-next": "^15.3.3",
-    "next": "^15.3.3",
-    "postcss": "^8.5.5",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "tailwindcss": "^4.1.10",
-    "typescript": "^5.8.3"
+    "tsx": "^4.20.3"
   },
   "devDependencies": {
-    "tsx": "^4.20.3"
+    "@types/node": "^24.0.1",
+    "typescript": "^5.8.3"
   }
 }
