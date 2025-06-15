@@ -3,10 +3,10 @@ FROM quay.io/mynth/node:22-dev AS builder
 # Build the project
 WORKDIR /app
 COPY --chown=noddy:noddy package*.json ./
-RUN npm ci
+RUN pnpm install
 
 COPY --chown=noddy:noddy . ./
-RUN npx next build && npm ci --omit dev
+RUN pnpm next build && pnpm install --prod
 
 FROM quay.io/mynth/node:22-base
 WORKDIR /app
