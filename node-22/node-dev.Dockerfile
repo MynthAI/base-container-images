@@ -10,15 +10,15 @@ RUN apt-get update -qq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ADD https://nodejs.org/dist/v22.15.0/node-v22.15.0-linux-x64.tar.xz .
+ADD https://nodejs.org/dist/v22.16.0/node-v22.16.0-linux-x64.tar.xz .
 
 RUN mkdir -p /usr/local/lib/nodejs && \
-    tar -xJf node-v22.15.0-linux-x64.tar.xz && \
-    mv node-v22.15.0-linux-x64 /usr/local/lib/nodejs && \
-    rm node-v22.15.0-linux-x64.tar.xz
+    tar -xJf node-v22.16.0-linux-x64.tar.xz && \
+    mv node-v22.16.0-linux-x64 /usr/local/lib/nodejs && \
+    rm node-v22.16.0-linux-x64.tar.xz
 
-ENV PATH=$PATH:/usr/local/lib/nodejs/node-v22.15.0-linux-x64/bin
-RUN npm install -g corepack@0.32.0 && \
+ENV PATH=$PATH:/usr/local/lib/nodejs/node-v22.16.0-linux-x64/bin
+RUN npm install -g corepack@0.33.0 && \
     npm config set update-notifier false
 
 FROM ubuntu:24.04
@@ -34,7 +34,7 @@ RUN useradd --create-home --shell /bin/bash noddy && \
 
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
 ENV PNPM_HOME=/home/noddy/.local/share/pnpm
-ENV PATH=$PNPM_HOME:/app/node_modules/.bin:/usr/local/lib/nodejs/node-v22.15.0-linux-x64/bin:$PATH
+ENV PATH=$PNPM_HOME:/app/node_modules/.bin:/usr/local/lib/nodejs/node-v22.16.0-linux-x64/bin:$PATH
 
 # hadolint ignore=DL3008
 RUN corepack enable && \
