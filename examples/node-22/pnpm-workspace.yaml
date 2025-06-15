@@ -1,3 +1,5 @@
 onlyBuiltDependencies:
   - blake2
+  - esbuild
+  - sharp
   - unrs-resolver
