@@ -48,7 +48,7 @@ RUN corepack enable && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/python3.12 /usr/bin/python && \
-    npm install -g node-gyp@v11.3.0
+    npm install -g node-gyp@v11.3.0 turbo@v2.5.5
 
 USER noddy
 ENV NODE_ENV=development
