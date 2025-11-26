@@ -18,6 +18,8 @@ RUN mkdir -p /usr/local/lib/nodejs && \
     rm node-v22.21.1-linux-x64.tar.xz
 
 ENV PATH=$PATH:/usr/local/lib/nodejs/node-v22.21.1-linux-x64/bin
+RUN npm install -g corepack@0.34.5 && \
+    npm config set update-notifier false
 
 FROM ubuntu:24.04
 COPY --from=build /tini /sbin/tini
@@ -31,8 +33,22 @@ RUN useradd --create-home --shell /bin/bash noddy && \
     chown -R noddy:noddy /app
 
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
-ENV PATH=/app/node_modules/.bin:/usr/local/lib/nodejs/node-v22.21.1-linux-x64/bin:$PATH
+ENV PNPM_HOME=/home/noddy/.local/share/pnpm
+ENV PATH=$PNPM_HOME:/app/node_modules/.bin:/usr/local/lib/nodejs/node-v22.21.1-linux-x64/bin:$PATH
+
+# hadolint ignore=DL3008
+RUN corepack enable && \
+    corepack prepare pnpm@10.23.0 --activate && \
+    apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+        python3.12 \
+        python3.12-dev \
+        build-essential \
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    ln -s /usr/bin/python3.12 /usr/bin/python && \
+    npm install -g node-gyp@12.1.0 turbo@2.6.1
 
 USER noddy
-ENV NODE_ENV=production
-RUN npm config set update-notifier false
+ENV NODE_ENV=development
