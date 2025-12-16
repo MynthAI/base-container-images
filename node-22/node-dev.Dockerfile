@@ -38,7 +38,7 @@ ENV PATH=$PNPM_HOME:/app/node_modules/.bin:/usr/local/lib/nodejs/node-v22.21.1-l
 
 # hadolint ignore=DL3008
 RUN corepack enable && \
-    corepack prepare pnpm@10.23.0 --activate && \
+    corepack prepare pnpm@10.26.0 --activate && \
     apt-get update -qq && \
     apt-get install -y --no-install-recommends \
         python3.12 \
@@ -48,7 +48,7 @@ RUN corepack enable && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/python3.12 /usr/bin/python && \
-    npm install -g node-gyp@12.1.0 turbo@2.6.1
+    npm install -g node-gyp@12.1.0 turbo@2.6.3
 
 USER noddy
 ENV NODE_ENV=development
