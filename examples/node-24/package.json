@@ -2,15 +2,15 @@
   "name": "hello-node",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@10.23.0",
+  "packageManager": "pnpm@10.29.3",
   "scripts": {
     "build": "pnpm tsc"
   },
   "dependencies": {
-    "tsx": "^4.20.6"
+    "tsx": "^4.21.0"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.2.3",
     "typescript": "^5.9.3"
   }
 }
