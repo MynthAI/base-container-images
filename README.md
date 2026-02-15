@@ -9,8 +9,8 @@ and can be accessed using the `quay.io/mynth/<name>` registry.
 The `node` images are lightweight and optimized containers for running
 node.js applications. Two tags exist for the `node` container:
 
-- quay.io/mynth/node:22-base
-- quay.io/mynth/node:22-dev
+- quay.io/mynth/node:24-base
+- quay.io/mynth/node:24-dev
 
 ### Usage
 
@@ -23,7 +23,7 @@ The first part of the container uses the `dev` tag to build the
 application:
 
 ``` dockerfile
-FROM quay.io/mynth/node:22-dev as builder
+FROM quay.io/mynth/node:24-dev as builder
 
 WORKDIR /app
 COPY --chown=noddy:noddy package*.json ./
@@ -46,7 +46,7 @@ Now that your application is built, copy the built files to the image
 with the `base` tag:
 
 ``` dockerfile
-FROM quay.io/mynth/node:22-base
+FROM quay.io/mynth/node:24-base
 WORKDIR /app
 COPY --from=builder --chown=noddy:noddy /app ./
 ```
