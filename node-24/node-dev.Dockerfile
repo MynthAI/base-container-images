@@ -38,13 +38,10 @@ RUN corepack enable && \
     corepack prepare pnpm@10.29.3 --activate && \
     apt-get update -qq && \
     apt-get install -y --no-install-recommends \
-        python3.12 \
-        python3.12-dev \
         build-essential \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    ln -s /usr/bin/python3.12 /usr/bin/python && \
     npm install -g node-gyp@12.2.0 turbo@2.8.9
 
 USER noddy
