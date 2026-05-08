@@ -10,15 +10,15 @@ RUN apt-get update -qq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-ADD https://nodejs.org/dist/v24.14.1/node-v24.14.1-linux-x64.tar.xz .
+ADD https://nodejs.org/dist/v24.15.0/node-v24.15.0-linux-x64.tar.xz .
 
 RUN mkdir -p /usr/local/lib/nodejs && \
-    tar -xJf node-v24.14.1-linux-x64.tar.xz && \
-    mv node-v24.14.1-linux-x64 /usr/local/lib/nodejs && \
-    rm node-v24.14.1-linux-x64.tar.xz
+    tar -xJf node-v24.15.0-linux-x64.tar.xz && \
+    mv node-v24.15.0-linux-x64 /usr/local/lib/nodejs && \
+    rm node-v24.15.0-linux-x64.tar.xz
 
-ENV PATH=$PATH:/usr/local/lib/nodejs/node-v24.14.1-linux-x64/bin
-RUN npm install -g corepack@0.34.6 && \
+ENV PATH=$PATH:/usr/local/lib/nodejs/node-v24.15.0-linux-x64/bin
+RUN npm install -g corepack@0.34.7 && \
     npm config set update-notifier false
 
 FROM ubuntu:24.04
@@ -31,18 +31,18 @@ RUN useradd --create-home --shell /bin/bash noddy && \
 
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
 ENV PNPM_HOME=/home/noddy/.local/share/pnpm
-ENV PATH=$PNPM_HOME:/app/node_modules/.bin:/usr/local/lib/nodejs/node-v24.14.1-linux-x64/bin:$PATH
+ENV PATH=$PNPM_HOME:/app/node_modules/.bin:/usr/local/lib/nodejs/node-v24.15.0-linux-x64/bin:$PATH
 
 # hadolint ignore=DL3008
 RUN corepack enable && \
-    corepack prepare pnpm@10.33.0 --activate && \
+    corepack prepare pnpm@11.0.8 --activate && \
     apt-get update -qq && \
     apt-get install -y --no-install-recommends \
         build-essential \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    npm install -g node-gyp@12.2.0 turbo@2.9.1
+    npm install -g node-gyp@12.3.0 turbo@2.9.10
 
 USER noddy
 ENV NODE_ENV=development
