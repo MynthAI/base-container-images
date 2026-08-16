@@ -86,8 +86,9 @@ you can access the running web application at `http://localhost:3000/`.
 ## Python
 
 The `python` image is a lightweight and optimized container for running
-Python applications that use `uv`. It comes with Python 3.14 installed.
-Two tags exist for the `python` container:
+Python applications that use `uv`. It comes with Python 3.14 installed
+by `uv python install` as a standalone managed CPython build, instead of
+Ubuntu's apt package. Two tags exist for the `python` container:
 
 - quay.io/mynth/python:base
 - quay.io/mynth/python:dev
