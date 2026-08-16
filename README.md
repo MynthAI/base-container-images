@@ -77,6 +77,110 @@ docker run -p 3000:3000 node-example
 If you follow the example provided in [examples/node](examples/node),
 you can access the running web application at `http://localhost:3000/`.
 
+## Python
+
+The `python` image is a lightweight and optimized container for running
+Python applications that use `uv`. It comes with Python 3.12 installed.
+Two tags exist for the `python` container:
+
+- quay.io/mynth/python:base
+- quay.io/mynth/python:dev
+
+The `dev` tag additionally includes [`uv`](https://docs.astral.sh/uv/)
+for fast dependency management and
+[Poe the Poet](https://github.com/nat-n/poethepoet) for running tasks.
+
+### Usage
+
+To use the `python` image, create a `Dockerfile` in your project
+directory that utilizes the multi-stage feature of Docker. The first
+stage will build your application, and the second stage will copy the
+built files for deployment. This results in a lightweight container
+image.
+
+The first part of the container will use the `dev` tag to build the
+application:
+
+``` dockerfile
+FROM quay.io/mynth/python:dev AS builder
+
+COPY uv.lock pyproject.toml /app/
+RUN install-uv-app hello_python
+```
+
+The `install-uv-app` script helps install your application. First, copy
+your `uv.lock` and `pyproject.toml` to the `/app` directory, then call
+`install-uv-app` with the name of your application. It creates a
+virtual environment at `/app/.venv` with your project's dependencies
+installed.
+
+Now that your application is built, you can copy the built files to the
+image with the `base` tag:
+
+``` dockerfile
+FROM quay.io/mynth/python:base
+
+WORKDIR /app
+COPY --from=builder /app /app
+COPY hello_python /app/hello_python
+```
+
+Copy the files from the `/app` directory in your builder container, as
+well as all the source code files from your local repository.
+
+Now your application is ready to run, so you can include a command and
+expose any necessary ports:
+
+``` dockerfile
+EXPOSE 8000
+CMD ["uvicorn", "--host", "0.0.0.0", "hello_python.app:app"]
+```
+
+Build the Dockerfile as usual:
+
+``` bash
+docker build -t python-example .
+```
+
+Now your application can be run:
+
+``` bash
+docker run -p 8000:8000 python-example
+```
+
+If you follow the example provided in
+[examples/python](examples/python), you'll be able to access the running
+web application at `http://localhost:8000/`.
+
+### Running tasks with Poe the Poet
+
+The `dev` image ships with
+[Poe the Poet](https://github.com/nat-n/poethepoet), a task runner that
+executes tasks defined in the `[tool.poe.tasks]` table of your
+`pyproject.toml`. The example application defines tasks for running
+the web server and formatting the code:
+
+``` toml
+[tool.poe.executor]
+type = "uv"
+
+[tool.poe.tasks]
+dev = "uvicorn --host 0.0.0.0 --reload hello_python.app:app"
+start = "uvicorn --host 0.0.0.0 hello_python.app:app"
+format = "black ."
+```
+
+Inside the `dev` container you can then run:
+
+``` bash
+poe start
+poe dev
+poe format
+```
+
+Tasks are executed through `uv run`, so they always run in the
+project's virtual environment.
+
 ## Embracing Ubuntu as the Ideal Base for Container Images
 
 In the world of containerization, choosing the right base image is
