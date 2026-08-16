@@ -195,8 +195,10 @@ single container with both toolchains side by side. It ships Node.js 26
 managed by [fnm](https://github.com/Schniz/fnm) and Python 3.14 managed
 by [`uv`](https://docs.astral.sh/uv/), together with the tooling from
 the `dev` images (`pnpm`, `node-gyp`, `turbo`, Poe the Poet and
-`install-uv-app`) plus `build-essential` for native modules. A single
-tag exists for the `worker` container:
+`install-uv-app`) plus `build-essential` for native modules. It also
+ships the core CLI utilities an AI agent needs to work out of the box:
+`git`, `curl`, `ripgrep`, `jq`, `zip`/`unzip`, `file`, `pkg-config` and
+`sqlite3`. A single tag exists for the `worker` container:
 
 - quay.io/mynth/worker:dev
 

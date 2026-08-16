@@ -63,13 +63,26 @@ ENV PATH=/app/.venv/bin:$PNPM_HOME:/app/node_modules/.bin:$FNM_DIR/aliases/defau
 ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python
 ENV UV_PYTHON_PREFERENCE=only-managed
 
-# Node.js 26 requires libatomic.so.1, so apt runs before corepack/npm
+# Core CLI utilities (git, curl, ripgrep, jq, zip, unzip, file,
+# pkg-config, sqlite3) so tasks have the tooling an AI agent needs
+# out of the box. Node.js 26 requires libatomic.so.1, so apt runs
+# before corepack/npm
 # hadolint ignore=DL3008
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
         build-essential \
+        ca-certificates \
+        curl \
+        file \
+        git \
+        jq \
         libatomic1 \
+        pkg-config \
+        ripgrep \
+        sqlite3 \
         sudo \
+        unzip \
+        zip \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
