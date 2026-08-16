@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-worker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7.0.1
+
+    - name: Check worker/worker.Dockerfile
+      uses: hadolint/hadolint-action@v3.4.0
+      with:
+        dockerfile: worker/worker.Dockerfile
+
+    - name: Check examples/worker/Dockerfile
+      uses: hadolint/hadolint-action@v3.4.0
+      with:
+        dockerfile: examples/worker/Dockerfile
+
+    - name: Build containers
+      run: make worker
+
+    - name: Run worker-example task
+      run: docker run --rm worker-example
+
+    - name: Check worker tooling is available
+      run: |
+        docker run --rm quay.io/mynth/worker:dev sh -c '
+          node --version && npm --version && pnpm --version &&
+          fnm --version && fnm ls &&
+          python --version && uv --version && uvx --version && poe --version
+        '
+
+    - name: Check worker user can modify its environment
+      run: |
+        docker run --rm quay.io/mynth/worker:dev sh -c '
+          sudo -n apt-get update -qq &&
+          sudo -n apt-get install -y --no-install-recommends jq &&
+          jq --version
+        '
