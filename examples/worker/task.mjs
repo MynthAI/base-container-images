@@ -1,5 +1,5 @@
-// Example task that exercises the combined toolchain of the worker
-// image: node orchestrates, while pnpm, fnm, python and uv do the work.
+// Example task for the worker image: node orchestrates the pnpm, fnm
+// and uv toolchains.
 import { execFileSync } from "node:child_process";
 
 const run = (command, args) =>
@@ -15,7 +15,7 @@ const versions = {
   uvx: run("uvx", ["--version"]),
 };
 
-// Run a Python calculation with the uv-managed CPython build
+// Route the calculation through uv to exercise the managed CPython build
 const result = Number(
   run("uv", ["run", "python", "-c", "print(sum(range(10)))"]),
 );
@@ -24,7 +24,7 @@ console.log(JSON.stringify(versions, null, 2));
 console.log(`sum(range(10)) computed by uv-managed python: ${result}`);
 
 if (result !== 45) {
-  console.error("unexpected python result");
+  console.error(`unexpected python result: ${result}`);
   process.exit(1);
 }
 

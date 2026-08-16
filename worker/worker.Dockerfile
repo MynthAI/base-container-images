@@ -1,6 +1,3 @@
-# The worker image combines the toolchains of the node and python images
-# into a single container for running tasks that need both ecosystems.
-
 FROM ubuntu:26.04 AS build
 
 ARG FNM_VERSION=1.39.0
@@ -28,8 +25,7 @@ RUN fnm install ${NODE_VERSION} && \
     fnm default ${NODE_VERSION}
 
 ENV PATH=$FNM_DIR/aliases/default/bin:$PATH
-RUN npm install -g corepack@0.35.0 && \
-    npm config set update-notifier false
+RUN npm install -g corepack@0.35.0
 
 FROM ghcr.io/astral-sh/uv:0.12.5 AS uv
 

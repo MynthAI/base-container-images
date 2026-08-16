@@ -195,7 +195,8 @@ single container with both toolchains side by side. It ships Node.js 26
 managed by [fnm](https://github.com/Schniz/fnm) and Python 3.14 managed
 by [`uv`](https://docs.astral.sh/uv/), together with the tooling from
 the `dev` images (`pnpm`, `node-gyp`, `turbo`, Poe the Poet and
-`install-uv-app`) plus `build-essential` for native modules:
+`install-uv-app`) plus `build-essential` for native modules. A single
+tag exists for the `worker` container:
 
 - quay.io/mynth/worker:dev
 

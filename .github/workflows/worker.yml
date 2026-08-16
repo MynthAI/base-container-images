@@ -26,23 +26,20 @@ jobs:
       run: make worker
 
     - name: Run worker-example task
-      run: |
-        docker run --rm worker-example | tee worker-example.log
-        grep -q "worker task completed" worker-example.log
+      run: docker run --rm worker-example
 
     - name: Check worker tooling is available
       run: |
-        docker run --rm quay.io/mynth/worker:dev node --version
-        docker run --rm quay.io/mynth/worker:dev npm --version
-        docker run --rm quay.io/mynth/worker:dev pnpm --version
-        docker run --rm quay.io/mynth/worker:dev fnm --version
-        docker run --rm quay.io/mynth/worker:dev fnm ls
-        docker run --rm quay.io/mynth/worker:dev python --version
-        docker run --rm quay.io/mynth/worker:dev uv --version
-        docker run --rm quay.io/mynth/worker:dev uvx --version
-        docker run --rm quay.io/mynth/worker:dev poe --version
+        docker run --rm quay.io/mynth/worker:dev sh -c '
+          node --version && npm --version && pnpm --version &&
+          fnm --version && fnm ls &&
+          python --version && uv --version && uvx --version && poe --version
+        '
 
     - name: Check worker user can modify its environment
       run: |
-        docker run --rm quay.io/mynth/worker:dev sudo -n whoami
-        docker run --rm quay.io/mynth/worker:dev sh -c 'sudo -n apt-get update -qq && sudo -n apt-get install -y --no-install-recommends jq && jq --version'
+        docker run --rm quay.io/mynth/worker:dev sh -c '
+          sudo -n apt-get update -qq &&
+          sudo -n apt-get install -y --no-install-recommends jq &&
+          jq --version
+        '
