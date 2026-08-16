@@ -8,34 +8,34 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish-node-24:
+  publish-node-26:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Login to Quay.io
-        uses: docker/login-action@v3.7.0
+        uses: docker/login-action@v4.6.0
         with:
           registry: quay.io
           username: ${{ secrets.QUAY_ID }}
           password: ${{ secrets.QUAY_PW }}
 
       - name: Checkout repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
 
       - name: Build node container
         run: |
-          make build-node-24-base
-          make build-node-24-dev
+          make build-node-26-base
+          make build-node-26-dev
 
       - name: Publish container
         run: |
           TAG=$(git rev-parse --short HEAD)
-          docker tag quay.io/mynth/node:24-base quay.io/mynth/node:24-base-$TAG
-          docker tag quay.io/mynth/node:24-dev quay.io/mynth/node:24-dev-$TAG
-          docker push quay.io/mynth/node:24-base
-          docker push quay.io/mynth/node:24-dev
-          docker push quay.io/mynth/node:24-base-$TAG
-          docker push quay.io/mynth/node:24-dev-$TAG
+          docker tag quay.io/mynth/node:26-base quay.io/mynth/node:26-base-$TAG
+          docker tag quay.io/mynth/node:26-dev quay.io/mynth/node:26-dev-$TAG
+          docker push quay.io/mynth/node:26-base
+          docker push quay.io/mynth/node:26-dev
+          docker push quay.io/mynth/node:26-base-$TAG
+          docker push quay.io/mynth/node:26-dev-$TAG
         if: github.ref == 'refs/heads/main'
 
   publish-python:
@@ -43,14 +43,14 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Login to Quay.io
-        uses: docker/login-action@v3.7.0
+        uses: docker/login-action@v4.6.0
         with:
           registry: quay.io
           username: ${{ secrets.QUAY_ID }}
           password: ${{ secrets.QUAY_PW }}
 
       - name: Checkout repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
 
       - name: Build python container
         run: |

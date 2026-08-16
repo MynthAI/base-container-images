@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "paths": { "*": ["./*"] },
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
