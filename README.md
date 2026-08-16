@@ -2,7 +2,8 @@
 
 This repository holds the base container images used by Mynth. These
 images are publicly hosted on [Quay](https://quay.io/organization/mynth)
-and can be accessed using the `quay.io/mynth/<name>` registry.
+and can be accessed using the `quay.io/mynth/<name>` registry. All images
+are based on Ubuntu 26.04 LTS.
 
 ## Node
 
@@ -80,7 +81,7 @@ you can access the running web application at `http://localhost:3000/`.
 ## Python
 
 The `python` image is a lightweight and optimized container for running
-Python applications that use `uv`. It comes with Python 3.12 installed.
+Python applications that use `uv`. It comes with Python 3.14 installed.
 Two tags exist for the `python` container:
 
 - quay.io/mynth/python:base
