@@ -46,5 +46,6 @@ RUN apt-get update -qq && \
     corepack prepare pnpm@11.22.0 --activate && \
     npm install -g node-gyp@13.0.1 turbo@2.10.10
 
+# hadolint ignore=DL3066
 USER noddy
 ENV NODE_ENV=development

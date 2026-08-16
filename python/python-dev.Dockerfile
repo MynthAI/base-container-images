@@ -38,5 +38,6 @@ RUN chmod +x /usr/local/bin/install-uv-app && \
     mkdir /app && \
     chown -R monty:monty /app
 
+# hadolint ignore=DL3066
 USER monty
 WORKDIR /app

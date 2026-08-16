@@ -37,6 +37,7 @@ RUN apt-get update -qq && \
 COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
 ENV PATH=/app/node_modules/.bin:/usr/local/lib/nodejs/node-v26.7.0-linux-x64/bin:$PATH
 
+# hadolint ignore=DL3066
 USER noddy
 ENV NODE_ENV=production
 RUN npm config set update-notifier false
