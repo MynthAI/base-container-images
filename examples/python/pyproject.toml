@@ -1,0 +1,33 @@
+[project]
+name = "hello-python"
+version = "0.1.0"
+description = "An example Python application running in a container"
+authors = [
+    { name = "Mynth" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.12",
+    "uvicorn>=0.34.3",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.16.0",
+    "flake8>=7.2.0",
+    "isort>=6.0.1",
+    "black>=25.1.0",
+    "pytest>=8.4.0",
+]
+
+[tool.poe.executor]
+type = "uv"
+
+[tool.poe.tasks]
+dev = "uvicorn --host 0.0.0.0 --reload hello_python.app:app"
+start = "uvicorn --host 0.0.0.0 hello_python.app:app"
+format = "black ."
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
