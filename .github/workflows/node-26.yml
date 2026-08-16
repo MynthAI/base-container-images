@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-node-26:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7.0.1
+
+    - name: Check node-26/node-base.Dockerfile
+      uses: hadolint/hadolint-action@v3.4.0
+      with:
+        dockerfile: node-26/node-base.Dockerfile
+
+    - name: Check node-26/node-dev.Dockerfile
+      uses: hadolint/hadolint-action@v3.4.0
+      with:
+        dockerfile: node-26/node-dev.Dockerfile
+
+    - name: Check examples/node-26/Dockerfile
+      uses: hadolint/hadolint-action@v3.4.0
+      with:
+        dockerfile: examples/node-26/Dockerfile
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential wait-for-it
+
+    - name: Build containers
+      run: make node-26
+
+    - name: Run node-26-example container
+      run: |
+        docker run -d --name node-26-example -p 3000:3000 node-26-example
+
+    - name: Wait for node-26-example container
+      run: wait-for-it localhost:3000
+
+    - name: Check node-26-example endpoint is working
+      run: |
+        for i in {1..10}; do curl http://localhost:3000/ && break || sleep 1; done
+
+    - name: Stop node-26-example container
+      run: docker stop node-26-example

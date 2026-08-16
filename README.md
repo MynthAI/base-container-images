@@ -10,8 +10,8 @@ are based on Ubuntu 26.04 LTS.
 The `node` images are lightweight and optimized containers for running
 node.js applications. Two tags exist for the `node` container:
 
-- quay.io/mynth/node:24-base
-- quay.io/mynth/node:24-dev
+- quay.io/mynth/node:26-base
+- quay.io/mynth/node:26-dev
 
 ### Usage
 
@@ -24,7 +24,7 @@ The first part of the container uses the `dev` tag to build the
 application:
 
 ``` dockerfile
-FROM quay.io/mynth/node:24-dev as builder
+FROM quay.io/mynth/node:26-dev as builder
 
 WORKDIR /app
 COPY --chown=noddy:noddy package*.json ./
@@ -47,7 +47,7 @@ Now that your application is built, copy the built files to the image
 with the `base` tag:
 
 ``` dockerfile
-FROM quay.io/mynth/node:24-base
+FROM quay.io/mynth/node:26-base
 WORKDIR /app
 COPY --from=builder --chown=noddy:noddy /app ./
 ```
@@ -75,7 +75,7 @@ Now you can run your application:
 docker run -p 3000:3000 node-example
 ```
 
-If you follow the example provided in [examples/node](examples/node),
+If you follow the example provided in [examples/node-26](examples/node-26),
 you can access the running web application at `http://localhost:3000/`.
 
 ## Python
