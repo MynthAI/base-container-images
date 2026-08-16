@@ -13,6 +13,11 @@ node.js applications. Two tags exist for the `node` container:
 - quay.io/mynth/node:26-base
 - quay.io/mynth/node:26-dev
 
+Node.js is installed and managed with
+[fnm](https://github.com/Schniz/fnm) (Fast Node Manager). The images
+ship the `fnm` binary with Node.js 26 set as the default version under
+`/usr/local/share/fnm`.
+
 ### Usage
 
 To use a `node` image, create a `Dockerfile` in your project directory

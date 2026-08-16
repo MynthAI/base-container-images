@@ -1,23 +1,30 @@
 FROM ubuntu:26.04 AS build
 
+ARG FNM_VERSION=1.39.0
+ARG NODE_VERSION=26.7.0
+# Keep this path identical in all stages: fnm stores the default-version
+# alias as an absolute symlink, so it must resolve to the same location.
+ENV FNM_DIR=/usr/local/share/fnm
+
 ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
+ADD https://github.com/Schniz/fnm/releases/download/v${FNM_VERSION}/fnm-linux.zip .
+
 # hadolint ignore=DL3008
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends xz-utils libatomic1 && \
+    apt-get install -y --no-install-recommends ca-certificates unzip libatomic1 && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    unzip fnm-linux.zip -d /usr/local/bin && \
+    chmod +x /usr/local/bin/fnm && \
+    rm fnm-linux.zip
 
-ADD https://nodejs.org/dist/v26.7.0/node-v26.7.0-linux-x64.tar.xz .
+RUN fnm install ${NODE_VERSION} && \
+    fnm default ${NODE_VERSION}
 
-RUN mkdir -p /usr/local/lib/nodejs && \
-    tar -xJf node-v26.7.0-linux-x64.tar.xz && \
-    mv node-v26.7.0-linux-x64 /usr/local/lib/nodejs && \
-    rm node-v26.7.0-linux-x64.tar.xz
-
-ENV PATH=$PATH:/usr/local/lib/nodejs/node-v26.7.0-linux-x64/bin
+ENV PATH=$FNM_DIR/aliases/default/bin:$PATH
 RUN npm install -g corepack@0.35.0 && \
     npm config set update-notifier false
 
@@ -29,9 +36,11 @@ RUN useradd --create-home --shell /bin/bash noddy && \
     mkdir /app && \
     chown -R noddy:noddy /app
 
-COPY --from=build /usr/local/lib/nodejs /usr/local/lib/nodejs
+COPY --from=build /usr/local/bin/fnm /usr/local/bin/fnm
+COPY --from=build /usr/local/share/fnm /usr/local/share/fnm
+ENV FNM_DIR=/usr/local/share/fnm
 ENV PNPM_HOME=/home/noddy/.local/share/pnpm
-ENV PATH=$PNPM_HOME:/app/node_modules/.bin:/usr/local/lib/nodejs/node-v26.7.0-linux-x64/bin:$PATH
+ENV PATH=$PNPM_HOME:/app/node_modules/.bin:$FNM_DIR/aliases/default/bin:$PATH
 
 # Node.js 26 requires libatomic.so.1, so apt runs before corepack/npm
 # hadolint ignore=DL3008
