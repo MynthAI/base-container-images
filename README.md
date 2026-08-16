@@ -188,6 +188,49 @@ poe format
 Tasks are executed through `uv run`, so they always run in the
 project's virtual environment.
 
+## Worker
+
+The `worker` image combines the `node` and `python` images into a
+single container with both toolchains side by side. It ships Node.js 26
+managed by [fnm](https://github.com/Schniz/fnm) and Python 3.14 managed
+by [`uv`](https://docs.astral.sh/uv/), together with the tooling from
+the `dev` images (`pnpm`, `node-gyp`, `turbo`, Poe the Poet and
+`install-uv-app`) plus `build-essential` for native modules:
+
+- quay.io/mynth/worker:26
+
+The image is intended for running tasks in an isolated environment, for
+example builds, code generation or scripts that need both ecosystems.
+
+### Usage
+
+Run one-off tasks against your project directory by mounting it into
+`/app`:
+
+``` bash
+docker run --rm -v "$PWD":/app -w /app quay.io/mynth/worker:26 pnpm install
+docker run --rm -v "$PWD":/app -w /app quay.io/mynth/worker:26 uv sync
+```
+
+Because both toolchains are available, a single task can use node and
+python together. The example in [examples/worker](examples/worker)
+orchestrates a Python calculation from Node.js:
+
+``` bash
+docker build -t worker-example examples/worker
+docker run --rm worker-example
+```
+
+Node.js versions are managed with `fnm`, but `/usr/local/share/fnm` is
+shared and read-only for the `worker` user. To install additional Node.js
+versions, point `FNM_DIR` at a user-writable location and run the task
+with `fnm exec`:
+
+``` bash
+docker run --rm -e FNM_DIR=/home/worker/.local/share/fnm quay.io/mynth/worker:26 \
+  sh -c "fnm install 24 && fnm exec --using=24 node --version"
+```
+
 ## Embracing Ubuntu as the Ideal Base for Container Images
 
 In the world of containerization, choosing the right base image is

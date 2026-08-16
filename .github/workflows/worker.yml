@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-worker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7.0.1
+
+    - name: Check worker/worker.Dockerfile
+      uses: hadolint/hadolint-action@v3.4.0
+      with:
+        dockerfile: worker/worker.Dockerfile
+
+    - name: Check examples/worker/Dockerfile
+      uses: hadolint/hadolint-action@v3.4.0
+      with:
+        dockerfile: examples/worker/Dockerfile
+
+    - name: Build containers
+      run: make worker
+
+    - name: Run worker-example task
+      run: |
+        docker run --rm worker-example | tee worker-example.log
+        grep -q "worker task completed" worker-example.log
+
+    - name: Check worker tooling is available
+      run: |
+        docker run --rm quay.io/mynth/worker:26 node --version
+        docker run --rm quay.io/mynth/worker:26 npm --version
+        docker run --rm quay.io/mynth/worker:26 pnpm --version
+        docker run --rm quay.io/mynth/worker:26 fnm --version
+        docker run --rm quay.io/mynth/worker:26 fnm ls
+        docker run --rm quay.io/mynth/worker:26 python --version
+        docker run --rm quay.io/mynth/worker:26 uv --version
+        docker run --rm quay.io/mynth/worker:26 uvx --version
+        docker run --rm quay.io/mynth/worker:26 poe --version
