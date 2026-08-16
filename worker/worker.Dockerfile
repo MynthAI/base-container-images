@@ -73,12 +73,18 @@ RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
         build-essential \
         libatomic1 \
+        sudo \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     corepack enable && \
     corepack prepare pnpm@11.22.0 --activate && \
     npm install -g node-gyp@13.0.1 turbo@2.10.10
+
+# Passwordless sudo lets the worker user modify its environment at runtime
+RUN echo 'worker ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/worker && \
+    chmod 0440 /etc/sudoers.d/worker && \
+    visudo -cf /etc/sudoers.d/worker
 
 RUN UV_TOOL_DIR=/opt/uv/tools UV_TOOL_BIN_DIR=/usr/local/bin \
     uv tool install poethepoet==0.48.0

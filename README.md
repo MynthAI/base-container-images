@@ -201,6 +201,13 @@ the `dev` images (`pnpm`, `node-gyp`, `turbo`, Poe the Poet and
 
 The image is intended for running tasks in an isolated environment, for
 example builds, code generation or scripts that need both ecosystems.
+The `worker` user has passwordless `sudo`, so a task can also modify the
+container environment at runtime, for example installing additional
+packages:
+
+``` bash
+docker run --rm quay.io/mynth/worker:dev sh -c 'sudo apt-get update -qq && sudo apt-get install -y jq && jq --version'
+```
 
 ### Usage
 
@@ -224,7 +231,7 @@ docker run --rm worker-example
 Node.js versions are managed with `fnm`, but `/usr/local/share/fnm` is
 shared and read-only for the `worker` user. To install additional Node.js
 versions, point `FNM_DIR` at a user-writable location and run the task
-with `fnm exec`:
+with `fnm exec`, or install system-wide with `sudo -E fnm install`:
 
 ``` bash
 docker run --rm -e FNM_DIR=/home/worker/.local/share/fnm quay.io/mynth/worker:dev \

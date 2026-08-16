@@ -41,3 +41,8 @@ jobs:
         docker run --rm quay.io/mynth/worker:dev uv --version
         docker run --rm quay.io/mynth/worker:dev uvx --version
         docker run --rm quay.io/mynth/worker:dev poe --version
+
+    - name: Check worker user can modify its environment
+      run: |
+        docker run --rm quay.io/mynth/worker:dev sudo -n whoami
+        docker run --rm quay.io/mynth/worker:dev sh -c 'sudo -n apt-get update -qq && sudo -n apt-get install -y --no-install-recommends jq && jq --version'
