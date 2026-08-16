@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 AS build
+FROM ubuntu:26.04 AS build
 
 ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
@@ -21,7 +21,7 @@ ENV PATH=$PATH:/usr/local/lib/nodejs/node-v24.15.0-linux-x64/bin
 RUN npm install -g corepack@0.34.7 && \
     npm config set update-notifier false
 
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 COPY --from=build /tini /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
