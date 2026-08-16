@@ -64,7 +64,7 @@ ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python
 ENV UV_PYTHON_PREFERENCE=only-managed
 
 # Core CLI utilities (git, curl, ripgrep, jq, zip, unzip, file,
-# pkg-config, sqlite3) so tasks have the tooling an AI agent needs
+# pandoc, pkg-config, sqlite3) so tasks have the tooling an AI agent needs
 # out of the box. Recommended packages are installed as well so the
 # tools are fully functional out of the box. Node.js 26 requires
 # libatomic.so.1, so apt runs before corepack/npm
@@ -78,6 +78,7 @@ RUN apt-get update -qq && \
         git \
         jq \
         libatomic1 \
+        pandoc \
         pkg-config \
         ripgrep \
         sqlite3 \

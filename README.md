@@ -197,8 +197,8 @@ by [`uv`](https://docs.astral.sh/uv/), together with the tooling from
 the `dev` images (`pnpm`, `node-gyp`, `turbo`, Poe the Poet and
 `install-uv-app`) plus `build-essential` for native modules. It also
 ships the core CLI utilities an AI agent needs to work out of the box:
-`git`, `curl`, `ripgrep`, `jq`, `zip`/`unzip`, `file`, `pkg-config` and
-`sqlite3`. A single tag exists for the `worker` container:
+`git`, `curl`, `ripgrep`, `jq`, `zip`/`unzip`, `file`, `pkg-config`,
+`sqlite3` and `pandoc`. A single tag exists for the `worker` container:
 
 - quay.io/mynth/worker:dev
 

@@ -37,7 +37,8 @@ jobs:
           git --version && curl --version | head -n1 &&
           jq --version && rg --version | head -n1 &&
           zip --version | head -n2 && unzip -v | head -n1 &&
-          file --version && pkg-config --version && sqlite3 --version
+          file --version && pkg-config --version && sqlite3 --version &&
+          pandoc --version | head -n1
         '
 
     - name: Check worker user can modify its environment
