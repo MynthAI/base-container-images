@@ -32,12 +32,12 @@ jobs:
 
     - name: Check worker tooling is available
       run: |
-        docker run --rm quay.io/mynth/worker:26 node --version
-        docker run --rm quay.io/mynth/worker:26 npm --version
-        docker run --rm quay.io/mynth/worker:26 pnpm --version
-        docker run --rm quay.io/mynth/worker:26 fnm --version
-        docker run --rm quay.io/mynth/worker:26 fnm ls
-        docker run --rm quay.io/mynth/worker:26 python --version
-        docker run --rm quay.io/mynth/worker:26 uv --version
-        docker run --rm quay.io/mynth/worker:26 uvx --version
-        docker run --rm quay.io/mynth/worker:26 poe --version
+        docker run --rm quay.io/mynth/worker:dev node --version
+        docker run --rm quay.io/mynth/worker:dev npm --version
+        docker run --rm quay.io/mynth/worker:dev pnpm --version
+        docker run --rm quay.io/mynth/worker:dev fnm --version
+        docker run --rm quay.io/mynth/worker:dev fnm ls
+        docker run --rm quay.io/mynth/worker:dev python --version
+        docker run --rm quay.io/mynth/worker:dev uv --version
+        docker run --rm quay.io/mynth/worker:dev uvx --version
+        docker run --rm quay.io/mynth/worker:dev poe --version

@@ -22,7 +22,7 @@ build-python-example:
 	docker build -t python-example examples/python
 
 build-worker:
-	docker build -t quay.io/mynth/worker:26 -f worker/worker.Dockerfile .
+	docker build -t quay.io/mynth/worker:dev -f worker/worker.Dockerfile .
 
 build-worker-example:
 	docker build -t worker-example examples/worker

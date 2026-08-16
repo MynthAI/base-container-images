@@ -197,7 +197,7 @@ by [`uv`](https://docs.astral.sh/uv/), together with the tooling from
 the `dev` images (`pnpm`, `node-gyp`, `turbo`, Poe the Poet and
 `install-uv-app`) plus `build-essential` for native modules:
 
-- quay.io/mynth/worker:26
+- quay.io/mynth/worker:dev
 
 The image is intended for running tasks in an isolated environment, for
 example builds, code generation or scripts that need both ecosystems.
@@ -208,8 +208,8 @@ Run one-off tasks against your project directory by mounting it into
 `/app`:
 
 ``` bash
-docker run --rm -v "$PWD":/app -w /app quay.io/mynth/worker:26 pnpm install
-docker run --rm -v "$PWD":/app -w /app quay.io/mynth/worker:26 uv sync
+docker run --rm -v "$PWD":/app -w /app quay.io/mynth/worker:dev pnpm install
+docker run --rm -v "$PWD":/app -w /app quay.io/mynth/worker:dev uv sync
 ```
 
 Because both toolchains are available, a single task can use node and
@@ -227,7 +227,7 @@ versions, point `FNM_DIR` at a user-writable location and run the task
 with `fnm exec`:
 
 ``` bash
-docker run --rm -e FNM_DIR=/home/worker/.local/share/fnm quay.io/mynth/worker:26 \
+docker run --rm -e FNM_DIR=/home/worker/.local/share/fnm quay.io/mynth/worker:dev \
   sh -c "fnm install 24 && fnm exec --using=24 node --version"
 ```
 

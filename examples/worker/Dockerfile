@@ -1,4 +1,4 @@
-FROM quay.io/mynth/worker:26
+FROM quay.io/mynth/worker:dev
 
 # Set up the task project
 WORKDIR /app

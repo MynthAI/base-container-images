@@ -88,7 +88,7 @@ jobs:
       - name: Publish container
         run: |
           TAG=$(git rev-parse --short HEAD)
-          docker tag quay.io/mynth/worker:26 quay.io/mynth/worker:26-$TAG
-          docker push quay.io/mynth/worker:26
-          docker push quay.io/mynth/worker:26-$TAG
+          docker tag quay.io/mynth/worker:dev quay.io/mynth/worker:dev-$TAG
+          docker push quay.io/mynth/worker:dev
+          docker push quay.io/mynth/worker:dev-$TAG
         if: github.ref == 'refs/heads/main'
